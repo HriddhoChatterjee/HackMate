@@ -1,8 +1,3 @@
-"""
-Business logic for Reviews — Track B.
-After a review is created, triggers a Reputation score recalculation
-for the reviewee (Track A's module).
-"""
 from sqlalchemy.orm import Session
 
 from app.repositories import review_repository

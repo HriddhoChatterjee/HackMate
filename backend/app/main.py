@@ -1,28 +1,17 @@
-"""
-App entrypoint. Run locally with:
-    uvicorn app.main:app --reload
-
-This is [Shared] scaffolding — as Person A and Person B build their
-routes, they each add one line here: `app.include_router(their_router)`.
-"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.database.base import Base
 from app.database.session import engine
-
-# --- Import models so Base.metadata knows about every table ---
-# Add your model imports here as each track builds theirs, e.g.:
-# from app.models import user, opportunity, team, application, workspace, review, reputation
-from app.models import roadmap  # noqa: F401  (Track C)
+from app.models import roadmap  
 from app.models import user, reputation, notification
 
 # --- Import routers ---
 from app.routes import roadmaps
 from app.routes import auth, users, notifications  # Fixed: Imported from app.routes instead of app.dependencies
-from app.models import review  # noqa: F401
-from app.models import reputation  # noqa: F401
+from app.models import review  
+from app.models import reputation  
 
 from app.routes import reviews
 from app.routes import reputation as reputation_routes
@@ -39,9 +28,6 @@ app.add_middleware(
 app.include_router(auth.router)          # Add this
 app.include_router(users.router)         # Add this   # Add this
 app.include_router(notifications.router) # Add this
-# Dev-only convenience: auto-creates tables from models on startup.
-# Once Alembic migrations are set up (shared task), replace this with
-# `alembic upgrade head` run as a separate step instead.
 Base.metadata.create_all(bind=engine)
 
 app.include_router(roadmaps.router)
