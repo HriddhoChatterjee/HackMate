@@ -1,21 +1,3 @@
-"""
-Business logic for Reputation — Track A.
-
-Score formula (simple, rule-based, no AI — same philosophy as team matching):
-    current_score = average(all ratings received) scaled from 1-5 up to 0-100
-
-Tier thresholds are on the 0-100 scale:
-    >= 90  -> Excellent
-    >= 75  -> Good
-    >= 50  -> Average
-    >  0   -> Needs Improvement
-    no reviews yet -> Unranked
-
-This is intentionally simple for launch. Documented future upgrades:
-    - Weight recent reviews more heavily than old ones (recency decay)
-    - Weight reviews from higher-reputation reviewers more heavily
-    - Factor in hackathon completion rate, not just review ratings
-"""
 from sqlalchemy.orm import Session
 
 from app.repositories import review_repository, reputation_repository
