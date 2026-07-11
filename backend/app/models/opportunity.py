@@ -1,16 +1,7 @@
 
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    Text,
-    Date,
-    DateTime,
-    ForeignKey
-)
+from sqlalchemy import Column, Integer, String, Date,DateTime, ForeignKey,Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-
 from app.database.base import Base
 
 
@@ -19,11 +10,7 @@ class Opportunity(Base):
 
     opportunity_id = Column(Integer, primary_key=True, index=True)
 
-    created_by = Column(
-        Integer,
-        ForeignKey("users.user_id"),
-        nullable=False
-    )
+    created_by = Column(Integer,ForeignKey("users.user_id"),nullable=False)
 
     hackathon_name = Column(String(150), nullable=False)
 
@@ -37,18 +24,8 @@ class Opportunity(Base):
 
     team_size = Column(Integer, nullable=False)
 
-    created_at = Column(
-        DateTime(timezone=True),
-        server_default=func.now()
-    )
+    created_at = Column(DateTime(timezone=True),server_default=func.now())
 
-    creator = relationship(
-        "User",
-        back_populates="opportunities"
-    )
+    creator = relationship("User",back_populates="opportunities")
 
-    teams = relationship(
-        "Team",
-        back_populates="opportunity",
-        cascade="all, delete-orphan"
-    )
+    teams = relationship("Team",back_populates="opportunity",cascade="all, delete-orphan")
