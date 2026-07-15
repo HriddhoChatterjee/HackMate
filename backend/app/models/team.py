@@ -12,7 +12,7 @@ class Team(Base):
 
     opportunity_id = Column(Integer,ForeignKey("opportunities.opportunity_id"),nullable=False)
 
-    leader_id = Column(Integer,ForeignKey("users.user_id"),nullable=False)
+    leader_id = Column(Integer,ForeignKey("users.id"),nullable=False)
 
     team_name = Column(String(100), nullable=False)
 
@@ -27,3 +27,8 @@ class Team(Base):
     leader = relationship("User",back_populates="teams")
 
     applications = relationship("Application",back_populates="team",cascade="all, delete-orphan")
+    tasks = relationship(
+    "Task",
+    back_populates="team",
+    cascade="all, delete-orphan",
+)

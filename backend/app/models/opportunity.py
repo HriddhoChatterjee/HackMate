@@ -10,7 +10,7 @@ class Opportunity(Base):
 
     opportunity_id = Column(Integer, primary_key=True, index=True)
 
-    created_by = Column(Integer,ForeignKey("users.user_id"),nullable=False)
+    created_by = Column(Integer,ForeignKey("users.id"),nullable=False)
 
     hackathon_name = Column(String(150), nullable=False)
 
