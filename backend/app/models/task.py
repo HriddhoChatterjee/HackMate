@@ -8,9 +8,8 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-
 from app.database.base import Base
-
+from sqlalchemy.orm import relationship
 
 class Task(Base):
     __tablename__ = "tasks"
@@ -86,4 +85,15 @@ class Task(Base):
     assignee = relationship(
         "User",
         foreign_keys=[assigned_to],
+    )
+    comments = relationship(
+        "TaskComment",
+        back_populates="task",
+        cascade="all, delete-orphan",
+    )
+
+    activities = relationship(
+        "TaskActivity",
+        back_populates="task",
+        cascade="all, delete-orphan",
     )

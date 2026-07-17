@@ -19,6 +19,8 @@ from app.models import task
 from app.routes import tasks
 from app.models import team
 from app.models import opportunity
+from app.models import task_comment
+from app.models import task_activity
 app = FastAPI(title=settings.APP_NAME)
 
 app.add_middleware(
