@@ -15,6 +15,12 @@ from app.models import reputation
 
 from app.routes import reviews
 from app.routes import reputation as reputation_routes
+from app.models import task
+from app.routes import tasks
+from app.models import team
+from app.models import opportunity
+from app.models import task_comment
+from app.models import task_activity
 app = FastAPI(title=settings.APP_NAME)
 
 app.add_middleware(
@@ -35,6 +41,7 @@ app.include_router(roadmaps.router)
 
 app.include_router(reviews.router)
 app.include_router(reputation_routes.router)
+app.include_router(tasks.router)
 
 
 @app.get("/")
