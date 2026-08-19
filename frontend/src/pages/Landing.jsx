@@ -67,7 +67,7 @@ function Navbar() {
             HackMate
           </Link>
           <div className="hidden md:flex gap-6">
-            {['Discovery', 'Teams', 'Workspace'].map((link) => (
+            {['Discovery', 'Teams', 'Workspace', 'Roadmaps'].map((link) => (
               <Link 
                 key={link} 
                 className="text-[#4a4455] font-medium hover:translate-y-[-2px] hover:translate-x-[-2px] transition-transform active:translate-y-0 active:translate-x-0" 

@@ -3,24 +3,29 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.database.base import Base
-from app.database.session import engine
-from app.models import roadmap  
-from app.models import user, reputation, notification
-
-# --- Import routers ---
-from app.routes import roadmaps
-from app.routes import auth, users, notifications  # Fixed: Imported from app.routes instead of app.dependencies
-from app.models import review  
-from app.models import reputation  
-
-from app.routes import reviews
+from app.database.session import SessionLocal, engine
+from app.database.roadmap_migration import ensure_roadmap_schema
+from app.models import (
+    application,
+    message,
+    mock_hackathon,
+    notification,
+    reputation,
+    review,
+    roadmap,
+    task,
+    task_activity,
+    task_comment,
+    team,
+    opportunity,
+    user,
+    workspace,
+)
+from app.routes import auth, mock_hackathons, notifications, roadmaps, tasks, users
 from app.routes import reputation as reputation_routes
-from app.models import task
-from app.routes import tasks
-from app.models import team
-from app.models import opportunity
-from app.models import task_comment
-from app.models import task_activity
+from app.routes import reviews, websocket, workspace as workspace_routes
+from app.services.roadmap_seed_service import seed_curated_roadmaps
+
 app = FastAPI(title=settings.APP_NAME)
 
 app.add_middleware(
@@ -31,17 +36,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router)          # Add this
-app.include_router(users.router)         # Add this   # Add this
-app.include_router(notifications.router) # Add this
 Base.metadata.create_all(bind=engine)
+ensure_roadmap_schema()
+with SessionLocal() as seed_db:
+    seed_curated_roadmaps(seed_db)
 
+app.include_router(auth.router)
+app.include_router(users.router)
+app.include_router(notifications.router)
 app.include_router(roadmaps.router)
-
-
 app.include_router(reviews.router)
 app.include_router(reputation_routes.router)
 app.include_router(tasks.router)
+app.include_router(workspace_routes.router)
+app.include_router(websocket.router)
+app.include_router(mock_hackathons.router)
 
 
 @app.get("/")

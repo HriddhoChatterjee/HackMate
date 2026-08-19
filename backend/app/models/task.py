@@ -80,11 +80,13 @@ class Task(Base):
     creator = relationship(
         "User",
         foreign_keys=[created_by],
+        back_populates="created_tasks",
     )
 
     assignee = relationship(
         "User",
         foreign_keys=[assigned_to],
+        back_populates="assigned_tasks",
     )
     comments = relationship(
         "TaskComment",

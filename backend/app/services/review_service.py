@@ -41,3 +41,6 @@ def submit_review(db: Session, reviewer_id: int, payload: ReviewCreate):
 
 def get_reviews_for_user(db: Session, reviewee_id: int):
     return review_repository.list_reviews_for_user(db, reviewee_id)
+
+def get_all_reviews(db: Session):
+    return review_repository.list_all_reviews(db)

@@ -23,6 +23,11 @@ def submit_review(
         raise HTTPException(status_code=409, detail=str(e))
 
 
+@router.get("/", response_model=list[ReviewResponse])
+def get_all_reviews(db: Session = Depends(get_db)):
+    return review_service.get_all_reviews(db)
+
+
 @router.get("/user/{user_id}", response_model=list[ReviewResponse])
 def get_reviews_for_user(user_id: int, db: Session = Depends(get_db)):
     return review_service.get_reviews_for_user(db, user_id)

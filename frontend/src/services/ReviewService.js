@@ -1,65 +1,12 @@
-const API_URL = "http://localhost:8000/reviews";
+import api from '../utils/api';
 
-export const getAllReviews = async () => {
-  const response = await fetch(API_URL);
+export async function getAllReviews(userId) {
+  const endpoint = userId ? `/reviews/user/${userId}` : '/reviews/';
+  const { data } = await api.get(endpoint);
+  return data;
+}
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch reviews");
-  }
-
-  return response.json();
-};
-
-export const getReview = async (reviewId) => {
-  const response = await fetch(`${API_URL}/${reviewId}`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch review");
-  }
-
-  return response.json();
-};
-
-export const createReview = async (reviewData) => {
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(reviewData)
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to create review");
-  }
-
-  return response.json();
-};
-
-export const updateReview = async (reviewId, reviewData) => {
-  const response = await fetch(`${API_URL}/${reviewId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(reviewData)
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to update review");
-  }
-
-  return response.json();
-};
-
-export const deleteReview = async (reviewId) => {
-  const response = await fetch(`${API_URL}/${reviewId}`, {
-    method: "DELETE"
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to delete review");
-  }
-
-  return response.json();
-};
+export async function createReview(reviewData) {
+  const { data } = await api.post('/reviews/', reviewData);
+  return data;
+}

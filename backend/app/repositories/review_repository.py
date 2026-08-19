@@ -39,3 +39,6 @@ def list_reviews_for_user(db: Session, reviewee_id: int) -> list[Review]:
 def get_all_ratings_for_user(db: Session, reviewee_id: int) -> list[int]:
     rows = db.query(Review.rating).filter(Review.reviewee_id == reviewee_id).all()
     return [r[0] for r in rows]
+
+def list_all_reviews(db: Session) -> list[Review]:
+    return db.query(Review).order_by(Review.created_at.desc()).all()
